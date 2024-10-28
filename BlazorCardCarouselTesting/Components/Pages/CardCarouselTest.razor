@@ -1,0 +1,53 @@
+﻿@page "/CardCarouselTest"
+@rendermode InteractiveServer
+
+<h3>CardCarousel Testing</h3>
+
+<h4>
+    Testing
+    <a href="https://github.com/vikramlearning/blazorbootstrap">Blazor.Bootstrap</a>
+    elements
+</h4>
+<div>
+    ***************************************************************
+</div>
+<CardCarouselManager 
+    componentType=@typeof(CardCarousel)
+    CardDataSets="AllCardsData" 
+    selectedCardIndex="CurrentDataIndex" 
+    />
+
+<div>
+    ***************************************************************
+    ***************************************************************
+</div>
+
+<Pagination ActivePageNumber="@CurrentPageNumber" TotalPages="2" PageChanged="OnPageChangedAsync" />
+
+@code {
+    private int currentDataIndex = 0;
+
+    public int CurrentDataIndex
+    {
+        get { return currentDataIndex; }
+        set { currentDataIndex = value; }
+    }
+
+    private int currentPageNumber = 1;
+
+    public int CurrentPageNumber
+    {
+        get { return currentPageNumber; }
+        set
+        {
+            currentPageNumber = value;
+            CurrentDataIndex = value - 1;
+        }
+    }
+    private async Task OnPageChangedAsync(int newPageNumber)
+    {
+        Console.WriteLine("OnPageChangedAsync - newPageNumber: " + newPageNumber);
+        await Task.Run(() => { CurrentPageNumber = newPageNumber; });
+
+    }
+}

@@ -1,0 +1,52 @@
+﻿@* 
+  Testing the Blazor Bootstrap library from https://github.com/vikramlearning/blazorbootstrap 
+*@
+
+<br />
+
+<Card Style="width:18rem">
+    <CardBody>
+        <CardTitle>@CardTitle</CardTitle>
+    </CardBody>
+
+    <Carousel ShowIndicators="true" Touch="false">
+
+        @{
+            bool initial = true;
+            foreach (var imgInfo in ImgData)
+            {
+                <CarouselItem Active=@initial>
+                    <Image Src=@imgInfo.path />
+                    <CarouselCaption>
+                        <p>@imgInfo.caption</p>
+                    </CarouselCaption>
+                </CarouselItem>
+                initial = false;
+            }
+        }
+
+    </Carousel>
+
+    <CardBody>
+        <CardLink To="#foo">Home</CardLink>
+    </CardBody>
+
+</Card>
+
+
+@code {
+    [Parameter]
+    public List<(string path, string caption)> ImgData { get; set; } = [];
+
+    [Parameter]
+    public string CardTitle { get; set; } = "";
+
+    // Create a List of CarouselCard data (title, Img data) (footer is a TODO),
+    // List<(string path, string caption)> imgData, string cardTitle
+    public class CardCarouselData
+    {
+        public List<(string path, string caption)> ImgDataList = [];
+        public string CardTitle = "";
+    }    
+        
+}
