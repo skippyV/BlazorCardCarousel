@@ -35,8 +35,20 @@
 
 
 @code {
+    private List<(string path, string caption)> _ImgData = [];
     [Parameter]
-    public List<(string path, string caption)> ImgData { get; set; } = [];
+    public List<(string path, string caption)> ImgData
+    {
+        get => _ImgData;
+        set
+        {
+            _ImgData = value;
+            if (_ImgData != null)
+            {
+                Console.WriteLine("CardCarousel - ImgData SET, count: " + _ImgData.Count);
+            }
+        }
+    } 
 
     [Parameter]
     public string CardTitle { get; set; } = "";

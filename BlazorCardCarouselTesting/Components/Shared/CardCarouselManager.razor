@@ -1,13 +1,10 @@
 ﻿<h3>CardCarousel Manager</h3>
 <b />
+<div>==============================================================</div>
 
-<div>
-    ---------------------------------------------------------------
-</div>
 <DynamicComponent Type="componentType" Parameters="CardDataDict" />
-<div>
-    ==============================================================
-</div>
+
+<hr />
 @code {
     Dictionary<string, object>? CardDataDict = new Dictionary<string, object>();
 
@@ -23,19 +20,39 @@
         set
         {
             _CardDataSets = value;
-
-            if (CardDataDict != null) // set the "current" Card parameters in the dictionary
-            {
-                CardDataDict.Clear();
-                var elem = _CardDataSets.ElementAt(selectedCardIndex);
-                // populate dictionary for CardCarousel
-                CardDataDict.Add(nameof(CardCarousel.CardTitle), elem.CardTitle);
-                CardDataDict.Add(nameof(CardCarousel.ImgData), elem.ImgDataList);
-            }
+            UpdateCardDataDictionaryParameters();
         }
     }
 
+    private void UpdateCardDataDictionaryParameters()
+    {
+        Console.WriteLine("In Manager: UpdateCardDataDictionaryParameters() " + _selectedCardIndex);
+        // if (CardDataDict != null) // set the "current" Card parameters in the dictionary
+        // {
+        //     CardDataDict.Clear();
+        //     var elem = _CardDataSets.ElementAt(selectedCardIndex);
+        //     // populate dictionary for CardCarousel
+        //     CardDataDict.Add(nameof(CardCarousel.CardTitle), elem.CardTitle);
+        //     CardDataDict.Add(nameof(CardCarousel.ImgData), elem.ImgDataList);
+        // }
+        CardDataDict = new Dictionary<string, object>();
+        var elem = _CardDataSets.ElementAt(selectedCardIndex);
+        // populate dictionary for CardCarousel
+        CardDataDict.Add(nameof(CardCarousel.CardTitle), elem.CardTitle);
+        CardDataDict.Add(nameof(CardCarousel.ImgData), elem.ImgDataList);
+    }
+
+    private int _selectedCardIndex = 0;
     [Parameter]
-    public int selectedCardIndex { get; set; } = 0;
+    public int selectedCardIndex
+    {
+        get => _selectedCardIndex;
+        set
+        {
+            _selectedCardIndex = value;
+            UpdateCardDataDictionaryParameters();
+            Console.WriteLine("In Manager: selectedCardIndex: " + _selectedCardIndex);
+        }
+    }
 
 }

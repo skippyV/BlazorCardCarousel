@@ -8,12 +8,12 @@ namespace BlazorCardCarouselTesting.Components.Pages
 
         protected override void OnInitialized()
         {
-            base.OnInitialized(); /// hmm I didn't have this in my original test
             AllCardsData = GetData();
         }
 
         private List<CardCarousel.CardCarouselData> GetData()
         {
+            Console.WriteLine("start CardCarouselTest.GetData");
             // Dummy data here. Data could have been retrieved from file or DB.
             List<CardCarousel.CardCarouselData> data = new List<CardCarousel.CardCarouselData> {
                 new CardCarousel.CardCarouselData {
@@ -25,7 +25,8 @@ namespace BlazorCardCarouselTesting.Components.Pages
                     },
                     CardTitle = "Turtles"
                 },
-                            new CardCarousel.CardCarouselData {
+                
+                new CardCarousel.CardCarouselData {
                     ImgDataList = new List<(string path, string caption)>
                     {
                         ("img/doggies/dog1.png","Doggie One"),
@@ -35,10 +36,20 @@ namespace BlazorCardCarouselTesting.Components.Pages
                     },
                     CardTitle = "Doggies"
                 },
+                
+                new CardCarousel.CardCarouselData {
+                    ImgDataList = new List<(string path, string caption)>
+                    {
+                        ("img/tribbles/one_tribble.jpg","Just one tribble"),
+                        ("img/tribbles/tribble_inspection.jpg","Interesting"),
+                        ("img/tribbles/tribbles_galore.jpg","Population Explosion"),
+                        ("img/tribbles/big_tribble.jpg","Big Bully Tribble")
+                    },
+                    CardTitle = "Tribbles"
+                }
             };
 
             return data;
         }
-
     }
 }
