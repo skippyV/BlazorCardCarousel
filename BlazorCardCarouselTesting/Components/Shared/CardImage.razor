@@ -1,0 +1,32 @@
+﻿<CardBase>
+    <Header>
+        <h2>@CardHeader</h2>
+    </Header>
+    <ChildContent>
+        <div class="text-center" >
+            <img src="@ImgSource" class="rounded"  height="250px"/>
+           @*  <img src="@ImgSource" class="imgtest" />  THIS DID NOT WORK *@
+        </div>
+    </ChildContent>
+    <Footer>
+        <h4>@Footer</h4>
+    </Footer>
+</CardBase>
+
+@code {
+    [Parameter]
+    public string CardHeader { get; set; }
+
+    [Parameter]
+    public string ImgSource { get; set; }
+
+    [Parameter]
+    public string Footer { get; set; }
+
+
+    public class CardImageMetaData
+    {
+        public Type CardType { get; } = typeof(CardImage);
+        public (string header, string img_path, string footer) CardImgData;
+    }
+}

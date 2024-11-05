@@ -1,0 +1,32 @@
+﻿@* <h3>CardBase</h3> *@
+
+@*
+    Code from https://jonhilton.net/blazor-shared-components/
+*@
+
+<div class="card mb-2 shadow-sm">
+    <div class="card-header">
+        @Header
+    </div>
+    <div class="card-body">
+        @ChildContent
+    </div>
+    <div class="card-footer py-3">
+        @Footer
+    </div>
+</div>
+
+@code {
+    @code {
+
+        [Parameter]
+        public RenderFragment Header { get; set; }
+
+        [Parameter]
+        public RenderFragment ChildContent { get; set; }
+
+        [Parameter]
+        public RenderFragment Footer { get; set; }
+
+    }
+}

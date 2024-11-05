@@ -1,0 +1,77 @@
+﻿
+@* 
+This code was sourced from https://github.com/DavidEggenberger/DavidSeesSharp-Videos/tree/main
+ *@
+
+@using System.Threading
+
+<div class="d-flex flex-column border-primary alert alert-info col-5">
+    <div class="d-flex justify-content-between align-items-center" style="height: 400px;">
+        <img src="icons/next (5).png" style="transform: rotate(180deg);" @onclick="() => Manualy(true)" />
+        <div>
+            @Render(currentPosition)
+        </div>
+        <img src="/icons/next (5).png" @onclick="() => Manualy(false)" />
+    </div>
+    <div class="d-flex justify-content-center">
+        @foreach (var item in Components)
+        {
+            if (Math.Abs(currentPosition % Components.Count) == Components.IndexOf(item))
+            {
+                <div class="alert alert-danger border-dark"></div>
+            }
+            else
+            {
+                <div class="alert alert-info border-dark"></div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    public void Manualy(bool backwards)
+    {
+        // if (!cts.IsCancellationRequested)
+        //     cts.Cancel();
+        if (backwards)
+            currentPosition--;
+        else
+            currentPosition++;
+    }
+    [Parameter]
+    //public Type[] Components { get; set; }
+    public List<CardImage.CardImageMetaData> Components { get; set; }
+    int currentPosition;
+    // CancellationTokenSource cts;
+    // CancellationToken ct;
+    protected override async Task OnInitializedAsync()
+    {
+        // cts = new CancellationTokenSource();
+        // ct = cts.Token;
+        Walkthrough();
+    }
+    public async Task Walkthrough()
+    {
+        // while (!ct.IsCancellationRequested)
+        // {
+        //     await Task.Delay(2500, ct);
+        //     currentPosition++;
+        await InvokeAsync(() => this.StateHasChanged());
+        // }
+    }
+    public RenderFragment Render(int position)
+    {
+        return RenderTreeBuilder =>
+        {
+            int listIndex = Math.Abs(position % Components.Count);
+            RenderTreeBuilder.OpenComponent(0, Components[listIndex].CardType);
+            var selectedImgData = Components[listIndex].CardImgData;
+            var st1 = selectedImgData.header;
+            RenderTreeBuilder.AddAttribute(5, nameof(CardImage.CardHeader), selectedImgData.header);
+            RenderTreeBuilder.AddAttribute(10, nameof(CardImage.ImgSource), selectedImgData.img_path);
+            RenderTreeBuilder.AddAttribute(15, nameof(CardImage.Footer), selectedImgData.footer);
+
+            RenderTreeBuilder.CloseComponent();
+        };
+    }
+}

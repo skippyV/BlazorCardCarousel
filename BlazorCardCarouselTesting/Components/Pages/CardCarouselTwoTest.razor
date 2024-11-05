@@ -1,0 +1,130 @@
+﻿@page "/CardCarouselTwoTest"
+@rendermode InteractiveServer
+
+@using static BlazorCardCarouselTesting.Components.Shared.CardImage
+
+<h3>CardCarouselTwo Test</h3>
+
+
+<CarouselDavidSees Components="CardImageMetaDataSelectedSet" />
+
+<Pagination ActivePageNumber="@CurrentPageNumber" TotalPages="3" PageChanged="OnPageChangedAsync" />
+
+@code {
+    // Type[] types =
+    // {
+    //     typeof(Counter),
+    //     typeof(Home),
+    //     typeof(Weather)
+    // };
+    List<CardImageMetaData> CardImageMetaDataSelectedSet = [];
+
+    /*
+    * How does the event callback "know" that the ActivePageNumber will be the input parameter to this async method?
+    */
+    private async Task OnPageChangedAsync(int selectedPageNumber)
+    {
+        Console.WriteLine("OnPageChangedAsync - selectedPageNumber: " + selectedPageNumber);
+        await Task.Run(() => { CurrentPageNumber = selectedPageNumber; });
+    }
+
+    private int currentPageNumber;
+
+    public int CurrentPageNumber
+    {
+        get { return currentPageNumber; }
+        set 
+        { 
+            currentPageNumber = value;
+            CardImageMetaDataSelectedSet = AllDataSets[currentPageNumber - 1]; // page numbers start at 1
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        //cardImageMetaData = GetAllDataSets();
+        AllDataSets = GetAllDataSets();
+        CardImageMetaDataSelectedSet = AllDataSets[0];
+    }
+
+    private List<List<CardImageMetaData>> AllDataSets = [];
+
+    private List<List<CardImageMetaData>> GetAllDataSets()
+    {
+        AllDataSets = new List<List<CardImageMetaData>>();
+
+        AllDataSets.Add(GetDataForDoggies());
+        AllDataSets.Add(GetDataForTurtles());
+        AllDataSets.Add(GetDataForTribbles());
+
+        return AllDataSets;
+    }
+
+    private List<CardImageMetaData> GetDataForDoggies()
+    {
+        List<CardImageMetaData> data = new List<CardImageMetaData>
+        {
+            new CardImageMetaData
+            {
+                CardImgData = ("header1","img/doggies/dog1.png", "footer1")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("header2","img/doggies/dog2.png", "footer2")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("header3","img/doggies/dog3.png", "footer3")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("header4","img/doggies/dog4.png", "footer4")
+            }
+        };
+        return data;
+    }
+    private List<CardImageMetaData> GetDataForTurtles()
+    {
+        List<CardImageMetaData> data = new List<CardImageMetaData>
+        {
+            new CardImageMetaData
+            {
+                CardImgData = ("Header1","img/turtles/turtle1.png", "Footer1")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("Header2","img/turtles/turtle2.png", "Footer2")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("Header3","img/turtles/turtle3.jpg", "Footer3")
+            }
+        };
+        return data;
+    }
+
+    private List<CardImageMetaData> GetDataForTribbles()
+    {
+        List<CardImageMetaData> data = new List<CardImageMetaData>
+        {
+            new CardImageMetaData
+            {
+                CardImgData = ("Tribble-Header1","img/tribbles/big_tribble.jpg", "Tribble-Footer1")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("Tribble-Header2","img/tribbles/one_tribble.jpg", "Tribble-Footer2")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("Tribble-Header3","img/tribbles/tribble_inspection.jpg", "Tribble-Footer3")
+            },
+            new CardImageMetaData
+            {
+                CardImgData = ("Tribble-Header3","img/tribbles/tribbles_galore.jpg", "Tribble-Footer4")
+            }
+        };
+        return data;
+    }
+
+}
